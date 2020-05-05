@@ -1,0 +1,33 @@
+create table custoomer(
+  custno varchar2(20),
+  custfirstname varchar2(30) constraint custfirstnameNotNull not null,
+  custlastname varchar2(30) constraint custlastnameNotNull not null,
+  custcity varchar2(30),
+  custstate char(2) ,
+  custzip char(10),
+  custbal decimal(12,2),
+  constraint PKCustomer primary key (custno)
+);
+
+create table employee(
+  empno varchar2(20),
+  empfirstname varchar2(30) constraint empfirstnameNotNull not null,
+  emplastname varchar2(30) constraint emplastnameNotNull not null,
+  empphone char(15),
+  empemail varchar2(50) constraint emailNotNull not null,
+  constraint pkEmployee primary key (empno),
+  constraint EmailUnique unique(empemail)
+
+);
+
+CREATE TABLE OrderTbl
+ ( OrdNo 	CHAR(8),
+    OrdDate	DATE CONSTRAINT OrdDateRequired NOT NULL,
+    CustNo		varchar2(20) CONSTRAINT CustNoRequired NOT NULL,
+    EmpNo	varchar2(20),
+  CONSTRAINT PKOrderTbl PRIMARY KEY (OrdNo) ,
+  CONSTRAINT FKCustNo FOREIGN KEY (custno) REFERENCES custoomer,
+  CONSTRAINT FKEmpNo FOREIGN KEY (empno) REFERENCES employee 
+  );
+
+

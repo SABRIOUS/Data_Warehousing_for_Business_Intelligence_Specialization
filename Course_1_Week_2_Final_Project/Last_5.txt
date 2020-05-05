@@ -1,0 +1,67 @@
+create table Employee(
+  EMPNO varchar2(8),
+  EMPNAME varchar2(30) constraint EMPNAMENOTNUll not null, 
+  DEPARTMENT varchar2(30) constraint DEPARTMENTNOTNULL not null,
+  EMAIL varchar2(40) constraint EMAILNOTNULL not null,
+  PHONE varchar2(11)constraint PHONENOTNULL not null,
+  constraint PK_EMPNO primary key (EmpNo)
+);
+
+---------------------
+
+create table ResourceTbl(
+  RESNO varchar2(8), 
+  RESNAME varchar2(30) constraint RESNAMEMNotNull not null ,
+  RATE integer constraint RATENotNUll not null,
+  constraint PK_RESNO primary key(RESNO),
+  constraint RATEGreatZero check (RATE > 0)
+);
+
+---------------------
+
+create table EVENTREQUEST(
+  EVENTNO varchar2(8) constraint EVENTNONotNull not null,
+  DATEHELD date constraint DATEHELDNotNull not null ,
+  DATEREQ date constraint DATEREQNotNull not null,
+  CustNo VARCHAR2(8) CONSTRAINT CustNamenNotNull NOT NULL,
+  FacNo VARCHAR2(8) CONSTRAINT FacNoNotNull NOT NULL,
+  DATEAUTH date ,
+  STATUS varchar2(30) constraint STATUSNotNull not null,
+  ESTCOST integer constraint ESTCOSTNotNull not null,
+  ESTAUDIENCE integer constraint ESTAUDIENCENotNull not null,
+  BUDNO varchar2(10) ,
+  constraint PK_EVENTNO_q primary key (EVENTNO),
+  CONSTRAINT F_FACNOE_q FOREIGN KEY (FacNo) references facility (FacNo ),
+  CONSTRAINT F_CustNoE_q FOREIGN KEY (CustNo)references customer (CustNo),
+  CONSTRAINT CheckSTATUES_q CHECK ( STATUS IN ('Pending','Denied', 'Approved'))
+  
+);
+
+------------------
+create table eventplan (
+  planno VARCHAR2(8) CONSTRAINT planonotnull NOT NULL,
+  eventno VARCHAR2(8) CONSTRAINT eventsnoNotNull NOT NULL,
+  workdate date constraint worksdateNotNull not null,
+  notes varchar2(50),
+  activity varchar2(30) constraint activityNotNull not null,
+  empno VARCHAR2(8),
+  CONSTRAINT pk_planno PRIMARY KEY (planno), 
+  CONSTRAINT fkeventno FOREIGN KEY (eventno) REFERENCES EVENTREQUEST (EVENTNO),
+  constraint fkempno foreign key (empno) references Employee (EMPNO)
+);
+-----------------
+
+CREATE TABLE EVENTPLANLINE (
+  PLANNO VARCHAR2(8) CONSTRAINT plantNotnull NOT NULL,
+  LINENO INTEGER CONSTRAINT LINENONotNull NOT NULL,
+  TIMESTART DATE CONSTRAINT TIMESTARTNotNull NOT NULL,
+  TIMEEND DATE CONSTRAINT TIMEENDNotNull NOT NULL,
+  NUMBERFLD INTEGER CONSTRAINT NUMBERFLDNotNull NOT NULL,
+  LOCNO VARCHAR2(8) CONSTRAINT LocNotNull NOT NULL,
+  RESNO VARCHAR2(8) CONSTRAINT RESNoTNull NOT NULL,
+  CONSTRAINT PK_PLANNO_LINENO PRIMARY KEY (PLANNO,LINENO),
+  CONSTRAINT fkPLANNO FOREIGN KEY (PLANNO) REFERENCES eventplan (planno),
+  CONSTRAINT fkLOCNO FOREIGN KEY (LOCNO) REFERENCES LOCATION (LocNo),
+  CONSTRAINT fkRESN FOREIGN KEY (RESNO) REFERENCES ResourceTbl (RESNO),
+  CONSTRAINT TimeStartLessThanEnD CHECK ( TIMESTART < TIMEEND )
+  );  

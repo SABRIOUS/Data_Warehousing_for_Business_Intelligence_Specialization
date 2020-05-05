@@ -1,0 +1,28 @@
+create table customer(
+  custno varchar2(8) constraint CustNoNotNull not null,
+  custname varchar2(30)constraint CustNameNotNull not null,
+  address varchar2(50)constraint AddressNotNull not null,
+  internal char(1) constraint InternalNotNull not null,
+  contact varchar2(35)constraint ContractNotNull not null,
+  phone varchar2(11)constraint CphoneNotNull not null,
+  city varchar2(30) constraint CityNotNull not null,
+  state varchar2(2) constraint StateNotNull not null,
+  zip varchar2(10)constraint ZipNotNull not null,
+  constraint PK_CUSTOMER primary key (custno)
+
+);
+
+create table facility(
+  facno varchar2(8) constraint FacNoNull not null,
+  facname varchar2(30) constraint FacNameNotNUll not null,
+  constraint Pk_facility primary key (facno),
+  constraint Unique_FaceName unique(facname)
+);
+
+create table location(
+  locno varchar2(8) constraint LocNotNull not null,
+  facno varchar2(8) constraint FacNotNull not null,
+  locname varchar2(30) not null,
+  constraint pklocno primary key (locno),
+  constraint fkfacno foreign key (facno) references facility (facno)
+);
