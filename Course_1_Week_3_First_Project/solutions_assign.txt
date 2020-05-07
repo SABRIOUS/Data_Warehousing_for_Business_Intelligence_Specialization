@@ -1,0 +1,52 @@
+solutions;
+----
+
+
+1- select CUSTNO,custname,phone,city from customer;
+----------------------
+
+2- SELECT custname,phone,city FROM customer
+where state = 'CO';
+---------------------
+
+3- SELECT * FROM EventRequest 
+WHERE ESTCOST > 4000 order by DateHeld;
+
+------------------
+
+4- SELECT EventNo, DateHeld, Status, EstAudience
+  FROM EventRequest
+  WHERE (Status = 'Approved' AND EstAudience > 9000) 
+           OR (Status = 'Pending' AND EstAudience > 7000);
+
+
+-------------
+
+5- SELECT EventNo, DateHeld, Customer.CustNo, CustName
+  FROM EventRequest, Customer
+  WHERE City = 'Boulder' 
+        AND DateHeld BETWEEN '1-Dec-2018' AND '31-Dec-2018'
+        AND EventRequest.CustNo = Customer.CustNo;
+
+SELECT  EventNo, DateHeld, Customer.CustNo, CustName
+  FROM  EventRequest INNER JOIN Customer 
+        ON  EventRequest.CustNo = Customer.CustNo
+  WHERE  City = 'Boulder' 
+        AND DateHeld BETWEEN '1-Dec-2018' AND '31-Dec-2018' ;
+
+
+--------
+
+6- SELECT PlanNo, AVG(NumberFld) AS AvgNumResources
+  FROM EventPlanLine
+  WHERE LocNo = 'L100'
+  GROUP BY PlanNo;
+
+------------
+
+7-SELECT PlanNo, AVG(NumberFld) AS AvgNumResources, 
+               COUNT(*) AS NumEventLines
+  FROM EventPlanLine
+  WHERE LocNo = 'L100'
+  GROUP BY PlanNo
+  HAVING COUNT(*) > 1;

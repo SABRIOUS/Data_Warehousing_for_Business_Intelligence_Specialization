@@ -1,0 +1,35 @@
+1-select distinct city,state,zip from customer;
+
+----------------
+
+2-SELECT EMPNAME,department,phone,email
+FROM employee
+where phone like '3-%';
+
+--------------
+3- select * 
+from resourcetbl
+where rate between 10 and 20
+
+order by rate;
+-------------
+4-SELECT eventno,dateauth,status
+FROM eventrequest
+WHERE status = 'Approved' OR status = 'Denied'
+and dateheld BETWEEN '01-JUL-18' and '31-JUL-18';
+
+----------------
+
+5-SELECT l.locno,l.locname, f.FACNAME
+FROM LOCATION l
+INNER JOIN facility f
+ON l.facno = f.facno
+where FACNAME = 'Basketball arena';
+
+------------------
+6-SELECT PlanNo,COUNT(*) AS CountPlanLine,
+sum(NumberFld) AS NumberResources 
+               
+FROM EventPlanLine
+GROUP BY PlanNo 
+having count(*) > 1;
