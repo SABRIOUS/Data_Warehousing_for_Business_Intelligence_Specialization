@@ -1,0 +1,82 @@
+1-
+SELECT e.EVENTNO,e.dateheld,count(PLANNO) Count_Event_Plan
+FROM eventrequest e
+INNER JOIN eventplan ev
+ON e.eventno = ev.eventno
+WHERE ev.WORKDATE BETWEEN '1-Dec-2018' AND '31-Dec-2018'
+GROUP BY e.EVENTNO,e.dateheld
+having count(e.EVENTNO) > 1;
+
+-------------
+2-
+SELECT e.PLANNO,e.EVENTNO,e.WORKDATE,e.ACTIVITY
+FROM eventplan e
+INNER JOIN eventplanline el
+ON e.PLANNO = el.PLANNO
+
+INNER JOIN LOCATION l
+ON el.locno = l.locno
+
+INNER JOIN facility f 
+ON l.facno = f.facno
+
+WHERE WORKDATE BETWEEN '1-Dec-2018' AND '31-Dec-2018'
+and facname = 'Basketball arena';
+
+------------
+3-
+SELECT e.EVENTNO,e.DATEHELD,e.STATUS,e.ESTCOST
+FROM eventrequest e
+INNER JOIN facility f 
+ON e.facno = f.facno
+INNER JOIN eventplan ev
+ON e.EVENTNO = ev.EVENTNO
+INNER JOIN employee em
+ON em.empno = ev.empno
+WHERE EMPNAME = 'Mary Manager'
+AND FACNAME = 'Basketball arena'
+AND DATEHELD BETWEEN '1-oct-2018' AND '31-Dec-2018';
+--------------
+4-
+SELECT ev.PLANNO,ev.LINENO,r.resname,ev.NUMBERFLD,
+l.locname,ev.TIMESTART,ev.TIMEEND
+FROM eventplanline ev
+INNER JOIN eventplan ep
+on ev.planno = ep.planno
+INNER JOIN resourcetbl r
+ON ev.resno = r.resno
+INNER JOIN LOCATION l
+on ev.locno = l.locno
+INNER JOIN facility f
+ON l.facno = f.facno
+WHERE FACNAME = 'Basketball arena'
+AND ep.activity = 'Operation'
+and WORKDATE BETWEEN '1-oct-2018' AND '31-Dec-2018';
+-------------
+5-
+INSERT INTO facility(FACNO,FACNAME)
+values('F104','Swimming Pool');
+----
+6-
+INSERT INTO LOCATION(LOCNO,FACNO,LOCNAME)
+VALUES('L108','F104','Door');
+
+----
+
+7-
+INSERT INTO LOCATION(LOCNO,FACNO,LOCNAME)
+VALUES('L108','F104','Locker Room');
+
+---------
+8-
+--UPDATE LOCATION 
+--SET LOCNAME = 'Gate'
+--WHERE LOCNO = 'L108'
+
+
+-------------
+9-
+--DELETE  FROM LOCATION
+--where LOCNO= 'L108';
+---------
+
